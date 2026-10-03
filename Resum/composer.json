@@ -1,0 +1,19 @@
+{
+    "name": "lenovo/resum",
+    "description": "Resum shard",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "storage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mazen Slime",
+            "email": "mazenslime16@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

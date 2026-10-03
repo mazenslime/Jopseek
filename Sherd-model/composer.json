@@ -1,0 +1,21 @@
+{
+    "name": "model/sherd",
+    "type": "library",
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^13.17"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "APP\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mazen Slime",
+            "email": "mazenslime16@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+	--brand-primary: #173c3a;
+	--brand-accent: #d86b3d;
+}
+
+@theme inline {
+	--color-brand-primary: var(--brand-primary);
+	--color-brand-accent: var(--brand-accent);
+}
