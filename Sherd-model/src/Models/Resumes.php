@@ -4,16 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Resumes extends Model
 {
     //
         //
-    use HasUuids, SoftDeletes;
+    use HasUuids ;
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $table = "JopApplication";
+    protected $table = 'resume_tablel';
+    public const DELETED_AT = 'Deleted_at';
     protected $fillable = [
         "Fillname",
         "Fileuri",
@@ -28,16 +31,14 @@ class Resumes extends Model
         "id",
     ];
     public $timestamps = true;
-    protected function casts()
+    public function User(): BelongsTo
     {
-        return [
-            "Deleted_at"=> "datetime",
-        ];
+        return $this->belongsTo(User::class, 'Userid', 'id');
     }
-    public function User(){
-        return $this->belongsTo(User::class);
+
+    public function Application(): HasMany
+    {
+        return $this->hasMany(Jopapplication::class,'ResumId','id');
     }
-    public function Application(){
-        return $this->hasMany(Jopapplication::class);
-    }
+
 }

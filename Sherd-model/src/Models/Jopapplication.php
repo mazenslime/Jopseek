@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Jopapplication extends Model
@@ -11,7 +14,8 @@ class Jopapplication extends Model
     use HasUuids, SoftDeletes;
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $table = "JopApplication";
+    protected $table = 'jopapplication';
+    public const DELETED_AT = 'Deleted_at';
     protected $fillable = [
         "Status",
         "Aigenratedscore",
@@ -39,7 +43,10 @@ class Jopapplication extends Model
         return $this->belongsTo(Jopvacancies::class,'Jobid','id');
     }
 
-    public function Resum(){
-        return $this->belongsTo(Resumes::class);
-    } 
+
+
+    public function Resums(): HasOne
+    {
+        return $this->hasOne(Resumes::class, 'id', 'ResumId');
+    }
 }

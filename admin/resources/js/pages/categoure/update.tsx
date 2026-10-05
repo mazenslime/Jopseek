@@ -35,8 +35,8 @@ export default function UpdateCategory({ category, onClose }: Props) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4">
-            <div className="w-full max-w-lg rounded-b-2xl border border-[#dfe5ef] bg-white shadow-xl">
-                <div className="border-b border-[#2747b7] bg-[#3157d5] px-6 py-8 text-white sm:px-10">
+            <div className="w-full max-w-lg overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+                <div className="border-b border-[#245854] bg-[#173c3a] px-6 py-8 text-white sm:px-10">
                     <div className="mb-4 flex items-start justify-between gap-4">
                         <div className="flex size-12 items-center justify-center rounded-xl bg-white/15">
                             <FolderPen className="size-6" />
@@ -50,7 +50,7 @@ export default function UpdateCategory({ category, onClose }: Props) {
                             ×
                         </button>
                     </div>
-                    <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em] text-white/70">
+                    <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em] text-[#f2b28f]">
                         Job management
                     </p>
                     <h1 className="text-3xl font-semibold tracking-tight text-white">
@@ -76,7 +76,7 @@ export default function UpdateCategory({ category, onClose }: Props) {
                             aria-invalid={Boolean(errors.Name)}
                             aria-describedby={errors.Name ? 'category-error' : undefined}
                             autoFocus
-                            className='text-black'
+                            className="text-slate-900 focus-visible:ring-[#173c3a]"
                         />
                         {errors.Name && (
                             <p id="category-error" className="text-sm text-red-500">
@@ -89,11 +89,11 @@ export default function UpdateCategory({ category, onClose }: Props) {
                     </div>
 
                     <div className="flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:justify-end">
-                        <Button className='text-gray-500' type="button" onClick={onClose}>
+                        <Button className="rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200" type="button" onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button className="text-blue-500 cursor-pointer" type="submit" disabled={processing}>
-                            {processing && <LoaderCircle className="text-blue-500 animate-spin cursor-pointer" />}
+                        <Button className="cursor-pointer rounded-xl bg-[#173c3a] text-white hover:bg-[#245854]" type="submit" disabled={processing}>
+                            {processing && <LoaderCircle className="animate-spin" />}
                             {processing ? 'Saving changes...' : 'Save changes'}
                         </Button>
                     </div>

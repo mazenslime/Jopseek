@@ -27,7 +27,7 @@
         "laravel/tinker": "^3.0",
         "laravel/wayfinder": "^0.1.14",
         "lenovo/resum": "*",
-        "model/sherd":"*",
+        "model/sherd": "dev-main",
         "spatie/pdf-to-text": "^1.55"
     },
     "require-dev": {

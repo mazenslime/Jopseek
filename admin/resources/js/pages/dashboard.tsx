@@ -99,7 +99,7 @@ export default function Dashboard({ stats, recentApplications, recentVacancies }
     return (
         <>
             <Head title="Dashboard" />
-            <main className="min-h-full flex-1 bg-[#080f1e] text-slate-100">
+            <main className="min-h-full flex-1 ">
                 <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-6 p-4 sm:p-6 lg:p-8">
                     <header className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                         <div>
@@ -107,10 +107,10 @@ export default function Dashboard({ stats, recentApplications, recentVacancies }
                                 <span className="size-1.5 rounded-full bg-emerald-400" />
                                 Live platform overview
                             </div>
-                            <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                            <h1 className="text-3xl font-semibold tracking-tight  sm:text-4xl">
                                 Welcome back, Admin.
                             </h1>
-                            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+                            <p className="mt-2 max-w-2xl text-sm leading-6 ">
                                 Here’s what’s happening across your job platform. Review applications and keep an eye on new opportunities.
                             </p>
                         </div>
@@ -155,7 +155,7 @@ export default function Dashboard({ stats, recentApplications, recentVacancies }
                     </section>
 
                     <section className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.7fr)_minmax(18rem,0.8fr)]">
-                        <div className="overflow-hidden rounded-xl border border-slate-800 bg-[#111a2b]">
+                        <div className="overflow-hidden rounded-xl border border-slate-800 ">
                             <div className="flex items-center justify-between gap-4 border-b border-slate-800 px-5 py-4">
                                 <div>
                                     <h2 className="font-semibold text-white">Recent applications</h2>
@@ -165,7 +165,7 @@ export default function Dashboard({ stats, recentApplications, recentVacancies }
                                 </div>
                                 <Link
                                     href={applicationsIndex()}
-                                    className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-blue-300 transition hover:text-blue-200"
+                                    className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-blue-600 transition hover:text-blue-200"
                                 >
                                     View all <ArrowUpRight className="size-3.5" aria-hidden="true" />
                                 </Link>
@@ -182,22 +182,22 @@ export default function Dashboard({ stats, recentApplications, recentVacancies }
                                         return (
                                             <article
                                                 key={application.id}
-                                                className="flex flex-col gap-4 rounded-lg px-3 py-4 transition hover:bg-slate-800/40 sm:flex-row sm:items-center sm:justify-between"
+                                                className="flex flex-col gap-4 rounded-lg px-3 py-4 transition text-black sm:flex-row sm:items-center sm:justify-between"
                                             >
                                                 <div className="flex min-w-0 items-center gap-3">
-                                                    <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/15 text-sm font-semibold text-blue-200">
+                                                    <span className="flex size-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold ">
                                                         {initial}
                                                     </span>
                                                     <div className="min-w-0">
-                                                        <p className="truncate text-sm font-medium text-slate-100">
+                                                        <p className="truncate text-sm font-medium ">
                                                             {application.job_title ?? 'Vacancy unavailable'}
                                                         </p>
-                                                        <p className="mt-1 truncate text-xs text-slate-400">
+                                                        <p className="mt-1 truncate text-xs ">
                                                             {applicantName}
-                                                            <span className="px-1.5 text-slate-600">·</span>
+                                                            <span className="px-1.5 ">·</span>
                                                             {application.company_name ?? 'Company unavailable'}
                                                         </p>
-                                                        <p className="mt-1.5 text-xs text-slate-500">
+                                                        <p className="mt-1.5 text-xs ">
                                                             Applied {formatDate(application.created_at)}
                                                         </p>
                                                     </div>
@@ -215,7 +215,7 @@ export default function Dashboard({ stats, recentApplications, recentVacancies }
                                     })}
                                 </div>
                             ) : (
-                                <p className="px-6 py-12 text-center text-sm text-slate-400">
+                                <p className="px-6 py-12 text-center text-sm">
                                     No applications have been submitted yet.
                                 </p>
                             )}

@@ -81,8 +81,16 @@ export default function MyApplications({ applications }: Props) {
 
                                     <div className="flex items-center justify-between gap-4 border-t border-stone-100 pt-4 lg:justify-end lg:border-0 lg:pt-0">
                                         <span className={`inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium ${statusStyles[application.status]}`}>
-                                            <span aria-hidden="true" className="mr-2 size-1.5 rounded-full bg-current" />
+                                            <span aria-hidden="true" className="text-black mr-2 size-1.5 rounded-full bg-current" />
                                             {application.status}
+                                            
+                                        </span>
+                                        <span aria-hidden="true" className="" >
+                                            {application.status === 'Interview' && (
+                                                <span className="inline-flex items-center gap-1.5 rounded-md border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs font-medium text-sky-800">
+                                                    <CalendarDays aria-hidden="true" className="size-4 text-sky-400" /> Interview scheduled
+                                                </span>
+                                            )   }
                                         </span>
                                         <div className="flex items-center gap-2">
                                             <Link

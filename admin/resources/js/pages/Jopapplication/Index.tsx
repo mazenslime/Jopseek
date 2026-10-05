@@ -1,4 +1,4 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { App, Head, Link, router, usePage } from '@inertiajs/react';
 import { Archive, ArrowRight, BriefcaseBusiness, Edit3, MapPin, Plus, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { destroy, index as Jopapplication, update } from '@/routes/Jopapplication';
@@ -20,6 +20,7 @@ type Application = {
         company_name: string | null
         created_at:string|''
 	updated_at:string|''
+    Resume:[]
 };
 type Pagination = {
     current_page: number|null;
@@ -36,7 +37,8 @@ type Props = {
 };
 
 export default function JopApplication({Application,flash }: Props) {
-    console.log(Application.data)
+    console.log(Application.data[0].Resume);
+    
     const { url } = usePage();
     const archive = new URLSearchParams(url).has('Archive');
     const [alert, setAlert] = useState(flash?.success ?? flash?.error ?? null);
@@ -87,7 +89,7 @@ export default function JopApplication({Application,flash }: Props) {
                                     {/* <Link href={`/Jopapplication/${JopApplication.id}/edit`} aria-label={`Edit ${JopApplication.Status}`} className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-[#173c3a]"><Edit3 className="size-4" /></Link> */}
                                     {!archive && <Link
                                     href={destroy.url({Jopapplication: JopApplication.id })} method="delete" as="button" aria-label={`Archive ${JopApplication.Status}`} className="rounded-lg p-2 text-slate-500 hover:bg-red-50 hover:text-red-600"><Trash2 className="size-4" /></Link>}
-                                    <Link href={`/Jopapplication/${JopApplication.id}`} aria-label={`View ${JopApplication.Status}`} className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-[#173c3a]"><ArrowRight className="size-4" /></Link>
+                                    {/* <Link href={`/Jopapplication/${JopApplication.id}`} aria-label={`View ${JopApplication.Status}`} className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-[#173c3a]"><ArrowRight className="size-4" /></Link> */}
                                 </div>
                             </article>
                         )) : <div className="px-6 py-16 text-center"><BriefcaseBusiness className="mx-auto size-10 text-slate-300" /><h2 className="mt-4 font-semibold">No vacancies found</h2><p className="mt-2 text-sm text-slate-500">Create a vacancy to start building your hiring pipeline.</p></div>}

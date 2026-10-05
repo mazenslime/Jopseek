@@ -6,13 +6,14 @@ import About from './Showcomponant/About';
 import Apply from './Showcomponant/Apply';
 import Hero from './Showcomponant/Hero';
 import MoreData from './Showcomponant/MoreData';
-import FormApplay from './Showcomponant/FormApplay';
+import FormApplay, { type ResumeOption } from './Showcomponant/FormApplay';
 
 export type Props = {
     vacances: Vacancy[];
+    Resumes: ResumeOption[];
 };
 
-export default function Show({ vacances }: Props) {
+export default function Show({ vacances, Resumes }: Props) {
     const [isApplyOpen, setIsApplyOpen] = useState(false);
     const vacancy = vacances[0];
 
@@ -20,9 +21,16 @@ export default function Show({ vacances }: Props) {
         return (
             <main className="min-h-[60vh] bg-stone-50 px-5 py-16 text-stone-900 sm:px-8">
                 <div className="mx-auto max-w-3xl rounded-lg border border-stone-200 bg-white px-6 py-14 text-center">
-                    <h1 className="text-2xl font-semibold">This job is no longer available</h1>
-                    <p className="mt-2 text-sm text-stone-500">Explore current opportunities to find another role.</p>
-                    <Link href={Jops.url()} className="mt-6 inline-flex h-10 items-center rounded-lg bg-emerald-800 px-4 text-sm font-semibold text-white transition hover:bg-emerald-900">
+                    <h1 className="text-2xl font-semibold">
+                        This job is no longer available
+                    </h1>
+                    <p className="mt-2 text-sm text-stone-500">
+                        Explore current opportunities to find another role.
+                    </p>
+                    <Link
+                        href={Jops.url()}
+                        className="mt-6 inline-flex h-10 items-center rounded-lg bg-emerald-800 px-4 text-sm font-semibold text-white transition hover:bg-emerald-900"
+                    >
                         Browse jobs
                     </Link>
                 </div>
@@ -33,9 +41,19 @@ export default function Show({ vacances }: Props) {
     return (
         <main className="min-h-screen bg-stone-50 px-5 py-8 text-stone-900 sm:px-8 lg:px-10">
             <div className="mx-auto max-w-6xl">
-                <nav aria-label="Breadcrumb" className="mb-5 text-sm text-stone-500">
-                    <Link href={Jops.url()} className="transition hover:text-emerald-800">Jobs</Link>
-                    <span aria-hidden="true" className="px-2 text-stone-300">/</span>
+                <nav
+                    aria-label="Breadcrumb"
+                    className="mb-5 text-sm text-stone-500"
+                >
+                    <Link
+                        href={Jops.url()}
+                        className="transition hover:text-emerald-800"
+                    >
+                        Jobs
+                    </Link>
+                    <span aria-hidden="true" className="px-2 text-stone-300">
+                        /
+                    </span>
                     <span className="text-stone-800">Job details</span>
                 </nav>
 
@@ -46,7 +64,10 @@ export default function Show({ vacances }: Props) {
                         <About description={vacancy.Description} />
                         <MoreData requiredSkills={vacancy.Requiredskills} />
                     </div>
-                    <Apply vacancy={vacancy} onApply={() => setIsApplyOpen(true)} />
+                    <Apply
+                        vacancy={vacancy}
+                        onApply={() => setIsApplyOpen(true)}
+                    />
                 </div>
             </div>
 
@@ -57,6 +78,7 @@ export default function Show({ vacances }: Props) {
                     company={vacancy.company?.name ?? 'Company'}
                     location={vacancy.Location}
                     onClose={() => setIsApplyOpen(false)}
+                    Resumes={Resumes}
                 />
             )}
         </main>

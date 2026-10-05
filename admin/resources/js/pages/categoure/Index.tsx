@@ -1,18 +1,12 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import {
-    Archive,
-    ArrowLeft,
-    ArrowRight,
-    BriefcaseBusiness,
-    FolderPlus,
-    Layers3,
-} from 'lucide-react';
-import { destroy as destroyCategory, index } from '@/routes/Jopcategoury';
-import { useEffect, useMemo, useState } from 'react';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { Archive, FolderKanban, FolderPlus, Plus } from 'lucide-react';
+import { useState } from 'react';
+import { destroy as destroyCategory } from '@/routes/Jopcategoury';
+import Archived from '@/components/Arctiv-Archive';
 import CreateCategory from './create';
 import UpdateCategory from './update';
 import Pagenation from '../Pagenation';
-const prams=new URLSearchParams()
+
 type Category = {
     id: string;
     Name: string;
@@ -21,208 +15,178 @@ type Category = {
 type CategoryPagination = {
     current_page: number;
     data: Category[];
-    first_page_url: string;
     from: number | null;
     last_page: number;
-    last_page_url: string;
-    next_page_url: string | null;
-    path: string;
-    per_page: number;
-    prev_page_url: string | null;
-    to: number | null;
-    total: number;
     links?: Array<{
         url: string | null;
         label: string;
         active: boolean;
     }>;
+    to: number | null;
+    total: number;
 };
 
 type Props = {
     jopcateg: CategoryPagination;
-    archiveCount?: number;
 };
+
 export default function Categoury({ jopcateg }: Props) {
-    const { url } = usePage();
-    const prams= new URLSearchParams(url);
-    const { flash } = usePage().props as {
-        flash?: {
-            message?: string;
-        };
-    };
+    const isArchiveView = new URLSearchParams(usePage().url).has('Archive');
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-
-    useEffect(() => {
-        if (flash) {
-            console.log(flash.message);
-        }
-    }, [flash]);
 
     return (
         <>
             <Head title="Categories" />
-            <main className="min-h-full bg-[#f5f7fb] px-4 py-8 text-[#172033] sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-5xl space-y-8">
-                    <header className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-                        <div>
-                            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#61708a]">
-                                Job management
-                            </p>
-                            <h1 className="text-4xl font-semibold tracking-tight text-[#172033]">
-                                Categories
-                            </h1>
-                            <p className="mt-2 max-w-lg text-sm leading-6 text-[#61708a]">
-                                Organize vacancies into simple, searchable groups for your team.
-                            </p>
-                        </div>
-                        <button
-                            type="button"
-                            onClick={() => setIsCreateOpen(true)}
-                            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#3157d5] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#2747b7] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3157d5]"
-                        >
-                            <FolderPlus className="size-4" />
-                            Add category
-                        </button>
-                    </header>
-                    <div className='flex gap-2'>
-                        <Link
-
-                        className={` px-2 py-1 rounded-lg text-gray-600 font-bold text-xl ${prams.has('Archive')?'bg-none':'text-white bg-black'}`}
-                         href={index.url({
-                            query:{
-                                Archive:true
-                            }
-                        })}>
-                            Arcive
-                        </Link>
-                         <Link
-                         className={` px-2 py-1 rounded-lg text-gray-600 font-bold text-xl ${!prams.has('Archive')?'bg-none':'text-white bg-black'}`}
-                         href={index.url()}>
-                            categoury
-                        </Link>
-                    </div>
-                    <div className="grid gap-4 sm:grid-cols-3">
-                        <div className="rounded-xl border border-[#dfe5ef] bg-white p-5 shadow-sm">
-                            <div className="mb-5 flex items-center justify-between">
-                                <span className="flex size-10 items-center justify-center rounded-lg bg-[#e9edff] text-[#3157d5]">
-                                    <Layers3 className="size-5" />
-                                </span>
-                                <span className="text-xs font-medium uppercase tracking-wider text-[#8a96a8]">
-                                    Total
-                                </span>
-                            </div>
-                            <p className="text-3xl font-semibold text-[#172033]">{jopcateg.total}</p>
-                            <p className="mt-1 text-sm text-[#61708a]">Active job categories</p>
-                        </div>
-                        <div className="rounded-xl border border-[#dfe5ef] bg-[#172033] p-5 text-white shadow-sm">
-                            <div className="mb-5 flex items-center justify-between">
-                                <span className="flex size-10 items-center justify-center rounded-lg bg-white/10 text-[#9eb1ff]">
-                                    <BriefcaseBusiness className="size-5" />
-                                </span>
-                                <span className="text-xs font-medium uppercase tracking-wider text-[#aeb8c9]">
-                                    Workspace
-                                </span>
-                            </div>
-                            <p className="text-xl font-semibold">Ready to organize</p>
-                            <p className="mt-1 text-sm text-[#aeb8c9]">Keep every vacancy easy to find</p>
-                        </div>
-                    </div>
-
-                    <section className="overflow-hidden rounded-xl border border-[#dfe5ef] bg-white shadow-sm">
-                        <div className="flex items-center justify-between border-b border-[#e8ecf2] px-5 py-4 sm:px-6">
+            <main className="min-h-screen bg-[#f7f8fa] px-4 py-8 text-slate-900 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-7xl space-y-6">
+                    <header className="rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.04)] sm:p-8">
+                        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
                             <div>
-                                <h2 className="font-semibold text-[#172033]">All categories</h2>
-                                <p className="mt-1 text-sm text-[#61708a]">
-                                    {jopcateg.total === 0 ? 'No categories yet' : `${jopcateg.total} categories available`}
+                                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#d86b3d]">
+                                    Job management
+                                </p>
+                                <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                                    Categories
+                                </h1>
+                                <p className="mt-2 max-w-xl text-sm text-slate-500 sm:text-base">
+                                    Organize vacancies into clear groups your team can manage and browse.
                                 </p>
                             </div>
-                            <span className="rounded-full bg-[#edf1f7] px-3 py-1 text-xs font-semibold text-[#61708a]">
-                                Page {jopcateg.current_page} of {jopcateg.last_page}
-                            </span>
+                            <button
+                                type="button"
+                                onClick={() => setIsCreateOpen(true)}
+                                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#173c3a] px-5 py-3 text-sm font-medium text-white shadow-lg shadow-[#173c3a]/15 transition hover:bg-[#245854]"
+                            >
+                                <Plus className="size-4" />
+                                Add category
+                            </button>
+                        </div>
+
+                        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                            <Stat label={isArchiveView ? 'Archived categories' : 'Total categories'} value={jopcateg.total} tone="emerald" />
+                            <Stat label="Categories on this page" value={jopcateg.data.length} tone="amber" />
+                            <Stat label="Current page" value={`${jopcateg.current_page} / ${jopcateg.last_page}`} tone="sky" />
+                        </div>
+                    </header>
+
+                    <Archived href="Jopcategoury" />
+
+                    <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_8px_28px_rgba(15,23,42,0.03)]">
+                        <div className="border-b border-slate-100 px-5 py-4 sm:px-6">
+                            <h2 className="font-semibold text-slate-900">
+                                {isArchiveView ? 'Archived categories' : 'All categories'}
+                            </h2>
+                            <p className="mt-1 text-sm text-slate-500">
+                                {jopcateg.total === 0
+                                    ? 'No categories found'
+                                    : `${jopcateg.total} ${isArchiveView ? 'archived ' : ''}categories`}
+                            </p>
                         </div>
 
                         {jopcateg.data.length > 0 ? (
-                            <div className="divide-y divide-[#e8ecf2]">
-                                {jopcateg.data.map((category, position) => (
-                                    <div key={category.id} className="flex items-center justify-between gap-4 px-5 py-4 sm:px-6">
-                                        <div>
-                                            <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#f0f3ff] text-sm font-semibold text-[#3157d5]">
-                                            {String(position + 1).padStart(2, '0')}
-                                        </span>
-                                        <div className="min-w-0">
-                                            <p className="truncate font-medium text-[#172033]">{category.Name}</p>
-                                            <p className="mt-1 text-xs text-[#8a96a8]">Available for job vacancies</p>
+                            <div className="divide-y divide-slate-100">
+                                {jopcateg.data.map((category) => (
+                                    <article
+                                        key={category.id}
+                                        className="flex flex-col gap-4 p-5 transition hover:bg-slate-50/70 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+                                    >
+                                        <div className="flex min-w-0 items-center gap-3">
+                                            <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-[#dfece8] text-[#173c3a]">
+                                                <FolderKanban className="size-5" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <h3 className="truncate text-base font-semibold text-slate-900">
+                                                    {category.Name}
+                                                </h3>
+                                                <p className="mt-1 text-sm text-slate-500">
+                                                    Available for job vacancies
+                                                </p>
+                                            </div>
                                         </div>
-                                        </div>
-                                        <div className='flex gap-x-2 '>
-                                                <Link
+
+                                        <div className="flex items-center gap-2 sm:justify-end">
+                                            <Link
                                                 href={destroyCategory.url({ Jopcategoury: category.id })}
-                                                method='delete'
+                                                method="delete"
                                                 as="button"
-                                                className='cursor-pointer rounded-lg bg-amber-500 px-2 py-1 text-white transition hover:bg-amber-600'
+                                                className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-slate-500 transition hover:bg-red-50 hover:text-red-600"
                                             >
+                                                <Archive className="size-4" />
                                                 Archive
                                             </Link>
                                             <button
                                                 type="button"
                                                 onClick={() => setSelectedCategory(category)}
-                                                className='bg-blue-500 cursor-pointer text-white px-2 py-1 rounded-lg'
+                                                className="rounded-xl bg-[#173c3a] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#245854]"
                                             >
                                                 Edit
                                             </button>
                                         </div>
-                                    </div>
+                                    </article>
                                 ))}
                             </div>
                         ) : (
                             <div className="px-6 py-16 text-center">
-                                <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#edf1f7] text-[#61708a]">
+                                <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#dfece8] text-[#173c3a]">
                                     <FolderPlus className="size-6" />
                                 </div>
-                                <h3 className="mt-5 font-semibold text-[#172033]">No categories yet</h3>
-                                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-[#61708a]">
-                                    Add your first category to start organizing job vacancies.
+                                <h3 className="mt-5 font-semibold text-slate-900">No categories found</h3>
+                                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-500">
+                                    {isArchiveView
+                                        ? 'Archived categories will appear here.'
+                                        : 'Add your first category to start organizing job vacancies.'}
                                 </p>
-                                <button
-                                    type="button"
-                                    onClick={() => setIsCreateOpen(true)}
-                                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#3157d5] hover:text-[#2747b7]"
-                                >
-                                    Create your first category
-                                    <ArrowRight className="size-4" />
-                                </button>
+                                {!isArchiveView && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsCreateOpen(true)}
+                                        className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#173c3a] hover:text-[#245854]"
+                                    >
+                                        Create your first category
+                                        <Plus className="size-4" />
+                                    </button>
+                                )}
                             </div>
                         )}
-
-                        {jopcateg.links && jopcateg.links.length > 3 && (
-                            <nav className="flex items-center justify-between border-t border-[#e8ecf2] px-5 py-4 sm:px-6" aria-label="Pagination">
-                                <Link
-                                    href={jopcateg.links[0].url ?? '#'}
-                                    aria-disabled={!jopcateg.links[0].url}
-                                    className="inline-flex items-center gap-2 text-sm font-medium text-[#61708a] hover:text-[#172033] aria-disabled:pointer-events-none aria-disabled:opacity-40"
-                                >
-                                    <ArrowLeft className="size-4" />
-                                    Previous
-                                </Link>
-                                <span className="text-sm text-[#8a96a8]">Showing {jopcateg.from ?? 0}-{jopcateg.to ?? 0}</span>
-                                <Link
-                                    href={jopcateg.links[jopcateg.links.length - 1].url ?? '#'}
-                                    aria-disabled={!jopcateg.links[jopcateg.links.length - 1].url}
-                                    className="inline-flex items-center gap-2 text-sm font-medium text-[#61708a] hover:text-[#172033] aria-disabled:pointer-events-none aria-disabled:opacity-40"
-                                >
-                                    Next
-                                    <ArrowRight className="size-4" />
-                                </Link>
-                            </nav>
-                        )}
                     </section>
+
+                    <Pagenation links={jopcateg.links ?? []} from={jopcateg.from} to={jopcateg.to} />
                 </div>
-            <Pagenation links={jopcateg.links ??[]} from={jopcateg.from} to={jopcateg.to} />
             </main>
 
             {isCreateOpen && <CreateCategory onClose={() => setIsCreateOpen(false)} />}
-            {selectedCategory && <UpdateCategory category={selectedCategory} onClose={() => setSelectedCategory(null)} />}
+            {selectedCategory && (
+                <UpdateCategory category={selectedCategory} onClose={() => setSelectedCategory(null)} />
+            )}
         </>
+    );
+}
+
+function Stat({ label, value, tone }: { label: string; value: string | number; tone: 'emerald' | 'amber' | 'sky' }) {
+    const styles = {
+        emerald: {
+            container: 'border-emerald-100 bg-emerald-50',
+            label: 'text-emerald-700',
+            value: 'text-emerald-900',
+        },
+        amber: {
+            container: 'border-amber-100 bg-amber-50',
+            label: 'text-amber-700',
+            value: 'text-amber-900',
+        },
+        sky: {
+            container: 'border-sky-100 bg-sky-50',
+            label: 'text-sky-700',
+            value: 'text-sky-900',
+        },
+    };
+    const style = styles[tone];
+
+    return (
+        <div className={`rounded-2xl border p-4 ${style.container}`}>
+            <p className={`text-xs font-medium uppercase tracking-[0.18em] ${style.label}`}>{label}</p>
+            <p className={`mt-2 text-2xl font-semibold ${style.value}`}>{value}</p>
+        </div>
     );
 }
