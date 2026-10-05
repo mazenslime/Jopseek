@@ -7,7 +7,6 @@ import { useAppearance } from '@/hooks/use-appearance';
 export default function Welcome() {
     const { resolvedAppearance, updateAppearance } = useAppearance();
     const isDark = resolvedAppearance === 'dark';
-
     return (
         <>
             <Head title="Welcome" />

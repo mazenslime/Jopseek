@@ -12,10 +12,11 @@ class JopAPPController extends Controller
     public function index()
     {
         if (Request()->has('query') || Request()->has('Fillter')) {
-            $query = $query = Request()->query('query');
+            $query = Request()->query('query');
             $Fillter = Request()->query('Fillter');
             $vacancies = Jopvacancies::where('Title', 'like', '%'.$query.'%')
-                ->where('Type', '=', $Fillter)->with(['Company', 'Categoury'])
+                ->when($Fillter, fn ($query) => $query->where('Type', '=', $Fillter))
+                ->with(['Company', 'Categoury'])
                 ->when(request()->has('Archive'), fn ($query) => $query->onlyTrashed())
                 ->latest()
                 ->paginate(10)

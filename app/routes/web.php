@@ -17,4 +17,5 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::delete('Myapp/{id}',[ADDresumandapplication::class,'destroy'] )->name('Deletapp');
 });
 
+
 require __DIR__.'/settings.php';
